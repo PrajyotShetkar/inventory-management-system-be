@@ -26,3 +26,11 @@ app.include_router(purchase_order_line_item.router, prefix="/api/v1/purchase-ord
 app.include_router(sales_transaction.router, prefix="/api/v1/sales", tags=["Sales"])
 app.include_router(sale_line_item.router, prefix="/api/v1/sale-line-items", tags=["Sale Line Items"])
 app.include_router(inventory_log.router, prefix="/api/v1/inventory-logs", tags=["Inventory Logs"])
+
+
+if __name__ == "__main__":
+    import os
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
+
