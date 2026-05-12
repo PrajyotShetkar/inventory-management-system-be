@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import (
     company,
@@ -17,6 +18,13 @@ app = FastAPI(
     version="0.1.0",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(company.router, prefix="/api/v1/companies", tags=["Companies"])
 app.include_router(store.router, prefix="/api/v1/stores", tags=["Stores"])
 app.include_router(vendor.router, prefix="/api/v1/vendors", tags=["Vendors"])
@@ -27,10 +35,8 @@ app.include_router(sales_transaction.router, prefix="/api/v1/sales", tags=["Sale
 app.include_router(sale_line_item.router, prefix="/api/v1/sale-line-items", tags=["Sale Line Items"])
 app.include_router(inventory_log.router, prefix="/api/v1/inventory-logs", tags=["Inventory Logs"])
 
-
 if __name__ == "__main__":
     import os
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("app.main:app", host="0.0.0.0", port=port)
-
